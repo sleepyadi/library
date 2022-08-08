@@ -2,6 +2,7 @@ const openModalButtons = document.querySelectorAll('[data-target-modal]');
 const closeModalButtons = document.querySelectorAll('[data-close-modal]');
 const bookForm = document.querySelector('#form-add-book');
 
+let myLibrary = [];
 
 function openModal(modal) {
     modal.classList.add('active');
@@ -9,6 +10,18 @@ function openModal(modal) {
 
 function closeModal(modal) {
     modal.classList.remove('active');
+}
+
+function Book(title, author, pages , hasRead, bookId) {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.hasRead = read;
+    this.bookId = bookId;
+}
+
+Book.prototype.read = function(bool) {
+    this.hasRead = bool; 
 }
 
 
@@ -26,4 +39,12 @@ closeModalButtons.forEach((button) => {
         const modal = document.querySelector(button.getAttribute('data-close-modal'));
         closeModal(modal);
     })
+})
+
+
+bookForm.addEventListener('submit', (event) => {
+    // preventing form to submit
+    event.preventDefault();
+
+
 })
