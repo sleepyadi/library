@@ -10,6 +10,60 @@
     <script src="./js/scripts.js" defer></script>
 </head>
 <body>
+    <header class="header">
+        <div class="header__logo"></div>
+        <div class="book_stats"></div>
+    </header>
     
+    <main class="main-content">
+        
+        <button data-target-modal="#modal-add-book" class="btn btn-add-book">+ Add Book</button>
+        
+        <div class="book-container">
+
+        </div>
+    
+    </main>
+
+    <footer class="footer">
+        made by <a href="https://github.com/sleepyadi" class="footer__link">sleepyadi</a>
+    </footer>
+
+    <div class="modal" id="modal-add-book">
+        <form action="" id="form-add-book">
+
+            <section>
+                <label for="book-title">Title:</label>
+                <input type="text" id="book-title" name="title">
+            </section>
+
+            <section>
+                <label for="book-author">Author:</label>
+                <input type="text" id="book-author" name="author">
+            </section>
+
+            <section>
+                <label for="book-pages">Pages:</label>
+                <input type="number" min=5 id="book-pages" name="pages">
+            </section>
+
+            <section>
+                <p>Read?</p>
+                <input type="radio" name="hasRead" id="read-yes">
+                <label for="read-yes">Yes</label>
+
+                <input type="radio" name="hasRead" id="read-no">
+                <label for="read-no">No</label>
+
+            </section>
+
+            <section>
+                <button class="btn" type="submit">Submit</button>
+                <button data-close-modal="#modal-add-book" class="btn btn-close-modal">Close</button>
+            </section>
+
+            
+        </form>
+    </div>
 </body>
 </html>

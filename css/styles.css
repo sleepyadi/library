@@ -6,3 +6,27 @@
     box-sizing: border-box;
     border: 1px solid red;
 }
+
+:root {
+    font-size: 100%;
+}
+
+body {
+    min-height: 100vh;
+}
+
+/* ==================== MODAL ====================== */
+.modal {
+    padding: 1em;
+    width: max-content;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+    transition: 200ms ease-in-out;
+    z-index: 10;
+}
+
+.modal.active {
+    transform: translate(-50%, -50%) scale(1);
+}
