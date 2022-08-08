@@ -44,12 +44,13 @@ function createBookCardElement(book) {
 
     const bookRead = document.createElement('p');
     bookRead.classList.add('book-card__read');
-    bookRead.textContent = (book.hasRead.toLowerCase() === 'yes') ? 'Read': 'Not Read';
+    bookRead.textContent = book.hasRead;
 
     const bookActions = document.createElement('div');
     bookActions.classList.add('book-card__actions')
 
     const bookDelete = document.createElement('button');
+    bookDelete.textContent = 'Delete';
     bookDelete.classList.add('btn');
     bookDelete.classList.add('book-card__delete-btn');
     bookActions.appendChild(bookDelete);
@@ -74,8 +75,28 @@ function addBookToLibrary(containerNode, book) {
     
     containerNode.appendChild(createBookCardElement(newBook));
     
+}
 
+function deleteBook(bookElement) {
+    if (!bookElement.getAttribute('class').includes('book-card')) {
+        return;
+    }
 
+    const bookId = bookElement.getAttribute('data-id');
+    bookElement.remove();
+    delete myLibrary[bookId];
+}
+
+function clearForm(form) {
+
+    let formElements = Array.from(form.elements);
+    formElements.forEach((element) => {
+        if (element.name !== 'hasRead') {
+            element.value = '';
+        }
+        
+    
+    });
 }
 
 
@@ -93,7 +114,7 @@ closeModalButtons.forEach((button) => {
         const modal = document.querySelector(button.getAttribute('data-close-modal'));
         closeModal(modal);
     })
-})
+});
 
 
 bookForm.addEventListener('submit', (event) => {
@@ -102,7 +123,21 @@ bookForm.addEventListener('submit', (event) => {
 
     const bookData = bookForm.elements;
     addBookToLibrary(container, bookData);
+    clearForm(bookForm);
 
     const formModal = bookForm.parentNode;
     closeModal(formModal);
+});
+
+
+container.addEventListener('click', (event) => {
+
+    if (event.target.nodeName === 'BUTTON') {
+        const className = event.target.getAttribute('class');
+
+        if (className.includes('book-card__delete-btn')) {
+            deleteBook(event.target.parentNode.parentNode);
+        }
+    }
 })
+
