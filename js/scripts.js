@@ -33,7 +33,7 @@ function createBookCardElement(book) {
     bookCard.classList.add('book-card');
     bookCard.setAttribute('data-id', book.bookId);
 
-    const bookTitle = document.createElement('h4');
+    const bookTitle = document.createElement('h2');
     bookTitle.classList.add('book-card__title');
     bookTitle.textContent = book.title;
 
