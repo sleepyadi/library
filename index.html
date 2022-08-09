@@ -11,13 +11,22 @@
 </head>
 <body>
     <header class="header">
-        <div class="header__logo"></div>
-        <div class="book_stats"></div>
+        <div class="header__logo">
+            <img src="./img/book-open-page-variant.svg" alt="book logo" class="header__img">
+            <div class="header__title">Library</div>
+        </div>
+
+        <div class="book_stats">
+            <h3>Stats</h3>
+            <p class="total"><span>Total: </span><span class="value">0</span></p>
+            <p class="read"><span>Read:</span><span class="value">0</span></p>
+            <p class="not-read"><span>Not Read:</span ><span class="value">0</span></p>
+        </div>
     </header>
     
     <main class="main-content">
         
-        <button data-target-modal="#modal-add-book" class="btn btn-add-book">+ Add Book</button>
+        <div class="container-actions"><button data-target-modal="#modal-add-book" class="btn btn-add-book">+ Add Book</button></div>
         
         <div class="book-container">
 

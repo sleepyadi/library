@@ -2,6 +2,9 @@ const openModalButtons = document.querySelectorAll('[data-target-modal]');
 const closeModalButtons = document.querySelectorAll('[data-close-modal]');
 const bookForm = document.querySelector('#form-add-book');
 const container = document.querySelector('.book-container')
+const totalBooks = document.querySelector('.book_stats .total .value');
+const readBooks = document.querySelector('.book_stats .read .value');
+const notReadBooks = document.querySelector('.book_stats .not-read .value');
 
 let myLibrary = [];
 
@@ -21,8 +24,8 @@ function Book(title, author, pages , hasRead, bookId) {
     this.bookId = bookId;
 }
 
-Book.prototype.read = function(bool) {
-    this.hasRead = bool; 
+Book.prototype.read = function(value) {
+    this.hasRead = value; 
 }
 
 function createBookCardElement(book) {
@@ -114,17 +117,42 @@ function editReadStatus(bookElement, readMsg, notReadMsg) {
     }
 
     if (readStatus === readMsg) {
-        myLibrary[Number(bookId)].hasRead = notReadMsg;
+        myLibrary[Number(bookId)].read(notReadMsg);
         readBtn.textContent = notReadMsg;
         readBtn.classList.remove('btn-green');
         readBtn.classList.add('btn-red');
     } else {
-        myLibrary[Number(bookId)].hasRead = readMsg;
+        myLibrary[Number(bookId)].read(readMsg);
         readBtn.textContent = readMsg;
         readBtn.classList.remove('btn-red');
         readBtn.classList.add('btn-green');
     }
 
+}
+
+function countReadBooks(lib) {
+    let read = 0;
+    let unread = 0;
+
+    if (myLibrary.length === 0) {
+        return [0,0];
+    }
+
+    for (let item of myLibrary) {
+        if (item.hasRead === 'Read') {
+            read += 1;
+        } else if (item.hasRead === 'Not Read') {
+            unread += 1;
+        }
+    }
+    return [read, unread];
+}
+
+function updateStats() {
+    let getReadCounts = countReadBooks(myLibrary);
+    totalBooks.textContent = getReadCounts[0] + getReadCounts[1];
+    readBooks.textContent = getReadCounts[0];
+    notReadBooks.textContent = getReadCounts[1];
 }
 
 function clearForm(form) {
@@ -167,6 +195,7 @@ bookForm.addEventListener('submit', (event) => {
 
     const formModal = bookForm.parentNode;
     closeModal(formModal);
+    updateStats();
 });
 
 
@@ -184,6 +213,7 @@ container.addEventListener('click', (event) => {
             editReadStatus(cardClass, 'Read', 'Not Read');
         }
 
+        updateStats();
     }
 })
 
