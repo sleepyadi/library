@@ -28,7 +28,7 @@ Book.prototype.read = function(bool) {
 function createBookCardElement(book) {
     const bookCard = document.createElement('div');
     bookCard.classList.add('book-card');
-    bookCard.setAttribute('data-id', book.id);
+    bookCard.setAttribute('data-id', book.bookId);
 
     const bookTitle = document.createElement('h4');
     bookTitle.classList.add('book-card__title');
@@ -42,12 +42,23 @@ function createBookCardElement(book) {
     bookPages.classList.add('book-card__pages');
     bookPages.textContent = book.pages;
 
-    const bookRead = document.createElement('p');
-    bookRead.classList.add('book-card__read');
-    bookRead.textContent = book.hasRead;
+
 
     const bookActions = document.createElement('div');
     bookActions.classList.add('book-card__actions')
+
+    const bookRead = document.createElement('button');
+    bookRead.textContent = book.hasRead;
+    bookRead.classList.add('btn');
+    bookRead.classList.add('book-card__read-btn');
+    
+    if (book.hasRead === 'Read') {
+        bookRead.classList.add('btn-green')
+    } else {
+        bookRead.classList.add('btn-red');
+    }
+
+    bookActions.appendChild(bookRead);
 
     const bookDelete = document.createElement('button');
     bookDelete.textContent = 'Delete';
@@ -55,7 +66,7 @@ function createBookCardElement(book) {
     bookDelete.classList.add('book-card__delete-btn');
     bookActions.appendChild(bookDelete);
 
-    let items = [bookTitle, bookAuthor, bookPages, bookRead, bookActions];
+    let items = [bookTitle, bookAuthor, bookPages, bookActions];
     items.forEach((item) => {
         bookCard.appendChild(item);
     })
@@ -85,6 +96,35 @@ function deleteBook(bookElement) {
     const bookId = bookElement.getAttribute('data-id');
     bookElement.remove();
     delete myLibrary[bookId];
+}
+
+function editReadStatus(bookElement, readMsg, notReadMsg) {
+    if (!bookElement.getAttribute('class').includes('book-card')) {
+        console.log('Not book-card element');
+        return;
+    }
+
+    const bookId = bookElement.getAttribute('data-id');
+    const readBtn = bookElement.querySelector('.book-card__actions').firstChild;
+    const readStatus = myLibrary[Number(bookId)].hasRead;
+
+    if (!readBtn.getAttribute('class').includes('book-card__read-btn')) {
+        console.log('Not read-btn element');
+        return;
+    }
+
+    if (readStatus === readMsg) {
+        myLibrary[Number(bookId)].hasRead = notReadMsg;
+        readBtn.textContent = notReadMsg;
+        readBtn.classList.remove('btn-green');
+        readBtn.classList.add('btn-red');
+    } else {
+        myLibrary[Number(bookId)].hasRead = readMsg;
+        readBtn.textContent = readMsg;
+        readBtn.classList.remove('btn-red');
+        readBtn.classList.add('btn-green');
+    }
+
 }
 
 function clearForm(form) {
@@ -134,10 +174,16 @@ container.addEventListener('click', (event) => {
 
     if (event.target.nodeName === 'BUTTON') {
         const className = event.target.getAttribute('class');
+        const cardClass = event.target.parentNode.parentNode ;
 
         if (className.includes('book-card__delete-btn')) {
-            deleteBook(event.target.parentNode.parentNode);
+            deleteBook(cardClass);
         }
+
+        if (className.includes('book-card__read-btn')) {
+            editReadStatus(cardClass, 'Read', 'Not Read');
+        }
+
     }
 })
 

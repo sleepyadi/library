@@ -15,6 +15,17 @@ body {
     min-height: 100vh;
 }
 
+
+.btn-red {
+    background-color: red;
+}
+
+.btn-green {
+    background-color: green;
+}
+
+
+
 /* ==================== MODAL ====================== */
 .modal {
     padding: 1em;
