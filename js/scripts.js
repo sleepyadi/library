@@ -98,6 +98,7 @@ function deleteBook(bookElement) {
 
     const bookId = bookElement.getAttribute('data-id');
     bookElement.remove();
+    // works but very scuffed way of keeping count of books with undefined leftovers to avoid shifting indexes, need to fix later.
     delete myLibrary[bookId];
 }
 
@@ -139,6 +140,9 @@ function countReadBooks(lib) {
     }
 
     for (let item of myLibrary) {
+        if (item === undefined) {
+            continue;
+        }
         if (item.hasRead === 'Read') {
             read += 1;
         } else if (item.hasRead === 'Not Read') {
