@@ -5,15 +5,18 @@ const container = document.querySelector('.book-container')
 const totalBooks = document.querySelector('.book_stats .total .value');
 const readBooks = document.querySelector('.book_stats .read .value');
 const notReadBooks = document.querySelector('.book_stats .not-read .value');
+const overlay = document.querySelector('#overlay');
 
 let myLibrary = [];
 
 function openModal(modal) {
     modal.classList.add('active');
+    overlay.classList.add('active');
 }
 
 function closeModal(modal) {
     modal.classList.remove('active');
+    overlay.classList.remove('active');
 }
 
 function Book(title, author, pages , hasRead, bookId) {
@@ -67,6 +70,7 @@ function createBookCardElement(book) {
     bookDelete.textContent = 'Delete';
     bookDelete.classList.add('btn');
     bookDelete.classList.add('book-card__delete-btn');
+    bookDelete.classList.add('btn-red');
     bookActions.appendChild(bookDelete);
 
     let items = [bookTitle, bookAuthor, bookPages, bookActions];
@@ -187,6 +191,13 @@ closeModalButtons.forEach((button) => {
         closeModal(modal);
     })
 });
+
+overlay.addEventListener('click', () => {
+    const activeModals = document.querySelectorAll('.modal.active');
+    activeModals.forEach((modal) => {
+        closeModal(modal);
+    })
+})
 
 
 bookForm.addEventListener('submit', (event) => {

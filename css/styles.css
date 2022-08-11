@@ -187,3 +187,21 @@ main {
 .modal.active {
     transform: translate(-50%, -50%) scale(1);
 }
+
+/* Overlay */
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: ease-in-out 200ms;
+    pointer-events: none;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
