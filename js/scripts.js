@@ -19,17 +19,24 @@ function closeModal(modal) {
     overlay.classList.remove('active');
 }
 
-function Book(title, author, pages , hasRead, bookId) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.hasRead = hasRead;
-    this.bookId = bookId;
+
+class Book {
+    constructor(title, author, pages, hasRead, bookId) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.hasRead = hasRead;
+        this.bookId = bookId;
+    }
+
+    get read() {
+        return this.hasRead;
+    }
+    set read(value) {
+        this.hasRead = value;
+    }
 }
 
-Book.prototype.read = function(value) {
-    this.hasRead = value; 
-}
 
 function createBookCardElement(book) {
     const bookCard = document.createElement('div');
@@ -54,11 +61,11 @@ function createBookCardElement(book) {
     bookActions.classList.add('book-card__actions')
 
     const bookRead = document.createElement('button');
-    bookRead.textContent = book.hasRead;
+    bookRead.textContent = book.read;
     bookRead.classList.add('btn');
     bookRead.classList.add('book-card__read-btn');
     
-    if (book.hasRead === 'Read') {
+    if (book.read === 'Read') {
         bookRead.classList.add('btn-green')
     } else {
         bookRead.classList.add('btn-red');
@@ -114,7 +121,7 @@ function editReadStatus(bookElement, readMsg, notReadMsg) {
 
     const bookId = bookElement.getAttribute('data-id');
     const readBtn = bookElement.querySelector('.book-card__actions').firstChild;
-    const readStatus = myLibrary[Number(bookId)].hasRead;
+    const readStatus = myLibrary[Number(bookId)].read;
 
     if (!readBtn.getAttribute('class').includes('book-card__read-btn')) {
         console.log('Not read-btn element');
@@ -122,12 +129,12 @@ function editReadStatus(bookElement, readMsg, notReadMsg) {
     }
 
     if (readStatus === readMsg) {
-        myLibrary[Number(bookId)].read(notReadMsg);
+        myLibrary[Number(bookId)].read = notReadMsg;
         readBtn.textContent = notReadMsg;
         readBtn.classList.remove('btn-green');
         readBtn.classList.add('btn-red');
     } else {
-        myLibrary[Number(bookId)].read(readMsg);
+        myLibrary[Number(bookId)].read = readMsg;
         readBtn.textContent = readMsg;
         readBtn.classList.remove('btn-red');
         readBtn.classList.add('btn-green');
@@ -147,9 +154,9 @@ function countReadBooks(lib) {
         if (item === undefined) {
             continue;
         }
-        if (item.hasRead === 'Read') {
+        if (item.read === 'Read') {
             read += 1;
-        } else if (item.hasRead === 'Not Read') {
+        } else if (item.read === 'Not Read') {
             unread += 1;
         }
     }
